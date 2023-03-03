@@ -27,6 +27,8 @@ app.use(function (req, res, next) {
 
 app.use('/user', require('./routes/user'));
 app.use('/auth', require('./routes/auth'));
+app.use('/job', require('./routes/job'));
+
 
 app.listen(process.env.PORT, () => {
     console.log(`Listening on port ${process.env.PORT}`);
