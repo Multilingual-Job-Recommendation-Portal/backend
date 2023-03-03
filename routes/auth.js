@@ -5,6 +5,6 @@ const router = express.Router();
 const AuthController = require('../controllers/auth');
 
 // Getting a user by google login
-router.get('/google', AuthController.getUserByGoogleLogin);
+router.post('/google', AuthController.getUserByGoogleLogin);
 
 module.exports = router;
