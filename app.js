@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const connectDB = require('./config/db');
 
 dotenv.config();
 const app = express();
@@ -11,8 +12,11 @@ app.get('/', (req, res) => {
 }
 );
 
+app.use('/user', require('./routes'));
+
 app.listen(process.env.PORT, () => {
     console.log(`Listening on port ${process.env.PORT}`);
 }
 );
 
+connectDB();
