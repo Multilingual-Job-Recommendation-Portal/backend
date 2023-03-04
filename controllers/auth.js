@@ -26,7 +26,8 @@ exports.getUserByGoogleLogin = (req, res, next) => {
                 email: email
             }).then(user => {
                 if (user) {
-                    res.status(200).json({
+                    res.json({
+                        status: 200,
                         message: 'User found',
                         user: user
                     });
