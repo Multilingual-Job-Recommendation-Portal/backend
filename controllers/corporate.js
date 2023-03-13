@@ -42,6 +42,8 @@ exports.createCorporate = (req, res, next) => {
         });
 }
 
+// TODO: Needed to debug
+
 // update corporate details
 exports.updateCorporate = (req, res, next) => {
     const corporate = new Corporate({
@@ -51,7 +53,7 @@ exports.updateCorporate = (req, res, next) => {
         website: req.body.website,
         address: req.body.address
     });
-    Corporate.updateOne({ email: req.body.email }, corporate).then(result => {
+    Corporate.updateOne({ _id: req.body.id }, corporate).then(result => {
         if (result.n > 0) {
             res.status(200).json({ message: "Update successful!" });
         } else {

@@ -35,34 +35,34 @@ exports.getUserByGoogleLogin = (req, res, next) => {
                         "User not found!"
                     );
                 }
-            },
+            })
 
-                // find the corporate by email
-                Corporate.findOne({ email: email }).then(corporate => {
-                    if (corporate) {
-                        res.status(200).json(corporate);
-                    }
-                    else {
-                        console.log(
-                            "User not found!"
-                        );
-                    }
-                },
+            // find the corporate by email
+            Corporate.findOne({ email: email }).then(corporate => {
+                if (corporate) {
+                    res.status(200).json(corporate);
+                }
+                else {
+                    console.log(
+                        "User not found!"
+                    );
+                }
+            })
 
-                    // find the admin by email
-                    Admin.findOne({ email: email }).then(admin => {
-                        if (admin) {
-                            res.status(200).json(admin);
-                        }
-                        else {
-                            console.log(
-                                "Admin User not found!"
-                            );
-                        }
-                    },
+            // find the admin by email
+            Admin.findOne({ email: email }).then(admin => {
+                if (admin) {
+                    res.status(200).json(admin);
+                }
+                else {
+                    console.log(
+                        "Admin User not found!"
+                    );
+                }
+            })
 
-                        // if the user is not found
-                        res.status(404).json({ message: "User not found!" });
+            // if the user is not found
+            res.status(404).json({ message: "User not found!" })
         }
     });
 }
