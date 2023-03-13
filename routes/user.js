@@ -15,4 +15,10 @@ router.get('/email', UserController.getUserByEmail);
 // Getting a user by id
 router.get('/id', UserController.getUserById);
 
+// updating a user by id
+router.put('/update', UserController.updateUser);
+
+// deleting a user by email
+router.delete('/delete', UserController.deleteUser);
+
 module.exports = router;

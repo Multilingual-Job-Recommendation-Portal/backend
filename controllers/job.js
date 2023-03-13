@@ -27,12 +27,12 @@ exports.createJob = (req, res, next) => {
             }
         });
     })
-    .catch(error=>{
-        console.log(error);
-        res.status(500).json({
-            message: "Creating a job failed!"
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({
+                message: "Creating a job failed!"
+            })
         })
-    })
 
 }
 
@@ -48,6 +48,53 @@ exports.getJobById = (req, res, next) => {
         .catch(error => {
             res.status(500).json({
                 message: "Fetching job failed!"
+            })
+        });
+}
+
+// update the job by id
+exports.updateJob = (req, res, next) => {
+    const job = new Job({
+        age: req.body.age,
+        edate: req.body.edate,
+        gender: req.body.gender,
+        jd: req.body.jd,
+        jobtype: req.body.jobtype,
+        location: req.body.location,
+        noOfVacancies: req.body.noOfVacancies,
+        sdate: req.body.sdate,
+        title: req.body.title,
+        disability: req.body.disability,
+        skills: req.body.skills,
+        _id: req.body.id
+    });
+    Job.updateOne({ _id: req.body.id }, job).then(result => {
+        if (result.n > 0) {
+            res.status(200).json({ message: "Update successful!" });
+        } else {
+            res.status(401).json({ message: "Not authorized!" });
+        }
+    })
+        .catch(error => {
+            res.status(500).json({
+                message: "Couldn't update job!"
+            })
+        }
+        );
+}
+
+// delete the job by id
+exports.deleteJob = (req, res, next) => {
+    Job.deleteOne({ _id: req.params.id }).then(result => {
+        if (result.n > 0) {
+            res.status(200).json({ message: "Deletion successful!" });
+        } else {
+            res.status(401).json({ message: "Not authorized!" });
+        }
+    })
+        .catch(error => {
+            res.status(500).json({
+                message: "Deleting job failed!"
             })
         });
 }

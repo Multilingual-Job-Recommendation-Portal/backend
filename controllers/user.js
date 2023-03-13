@@ -64,3 +64,48 @@ exports.getUserById = (req, res, next) => {
             })
         });
 }
+
+// update user details
+exports.updateUser = (req, res, next) => {
+    const user = new User({
+        _id: req.body.id,
+        name: req.body.name,
+        email: req.body.email,
+        age: req.body.age,
+        gender: req.body.gender,
+        religion: req.body.religion,
+        disability: req.body.disability,
+        category: req.body.category,
+        location: req.body.location,
+        pastJobs: req.body.pastJobs,
+        experience: req.body.experience
+    });
+    User.updateOne({ _id: req.params.id }, user).then(result => {
+        if (result.n > 0) {
+            res.status(200).json({ message: "Update successful!" });
+        } else {
+            res.status(401).json({ message: "Not authorized!" });
+        }
+    })
+        .catch(error => {
+            res.status(500).json({
+                message: "Couldn't update user!"
+            })
+        });
+}
+
+// delete user by email
+exports.deleteUser = (req, res, next) => {
+    User.deleteOne({ email: req.body.email }).then(result => {
+        if (result.n > 0) {
+            res.status(200).json({ message: "Deletion successful!" });
+        } else {
+            res.status(401).json({ message: "Not authorized!" });
+        }
+    })
+        .catch(error => {
+            res.status(500).json({
+                message: "Deleting user failed!"
+            })
+        });
+}

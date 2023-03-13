@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const Corporate = require('../models/corporate');
+const Admin = require('../models/admin');
 const dotenv = require('dotenv');
 dotenv.config();
 var google = require('googleapis').google;
@@ -22,25 +24,45 @@ exports.getUserByGoogleLogin = (req, res, next) => {
             });
         } else {
             const email = response.data.email;
-            User.findOne({
-                email: email
-            }).then(user => {
+
+            // find the user by email
+            User.findOne({ email: email }).then(user => {
                 if (user) {
-                    res.json({
-                        status: 200,
-                        message: 'User found',
-                        user: user
-                    });
-                } else {
-                    res.status(404).json({
-                        message: 'User not found'
-                    });
+                    res.status(200).json(user);
                 }
-            }).catch(err => {
-                res.status(500).json({
-                    message: 'Something went wrong'
-                });
-            });
+                else {
+                    console.log(
+                        "User not found!"
+                    );
+                }
+            },
+
+                // find the corporate by email
+                Corporate.findOne({ email: email }).then(corporate => {
+                    if (corporate) {
+                        res.status(200).json(corporate);
+                    }
+                    else {
+                        console.log(
+                            "User not found!"
+                        );
+                    }
+                },
+
+                    // find the admin by email
+                    Admin.findOne({ email: email }).then(admin => {
+                        if (admin) {
+                            res.status(200).json(admin);
+                        }
+                        else {
+                            console.log(
+                                "Admin User not found!"
+                            );
+                        }
+                    },
+
+                        // if the user is not found
+                        res.status(404).json({ message: "User not found!" });
         }
     });
 }
