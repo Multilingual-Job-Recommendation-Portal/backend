@@ -54,8 +54,10 @@ exports.updateCorporate = (req, res, next) => {
         address: req.body.address
     });
     Corporate.updateOne({ _id: req.body.id }, corporate).then(result => {
-        if (result.n > 0) {
+        if (result.modifiedCount == 1) {
             res.status(200).json({ message: "Update successful!" });
+        } else if (result.matchedCount == 1) {
+            res.status(200).json({ message: "No changes to update!" });
         } else {
             res.status(401).json({ message: "Not authorized!" });
         }
@@ -69,8 +71,8 @@ exports.updateCorporate = (req, res, next) => {
 
 // delete corporate
 exports.deleteCorporate = (req, res, next) => {
-    Corporate.deleteOne({ email: req.params.email }).then(result => {
-        if (result.n > 0) {
+    Corporate.deleteOne({ email: req.body.email }).then(result => {
+        if (result.deletedCount == 1) {
             res.status(200).json({ message: "Deletion successful!" });
         } else {
             res.status(401).json({ message: "Not authorized!" });

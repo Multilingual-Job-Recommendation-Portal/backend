@@ -69,9 +69,13 @@ exports.updateJob = (req, res, next) => {
         _id: req.body.id
     });
     Job.updateOne({ _id: req.body.id }, job).then(result => {
-        if (result.n > 0) {
+        console.log(result)
+        if (result.modifiedCount > 0) {
             res.status(200).json({ message: "Update successful!" });
-        } else {
+        } else if (result.matchedCount == 1) {
+            res.status(200).json({ message: "No Updates found" });
+        }
+        else {
             res.status(401).json({ message: "Not authorized!" });
         }
     })
@@ -85,8 +89,8 @@ exports.updateJob = (req, res, next) => {
 
 // delete the job by id
 exports.deleteJob = (req, res, next) => {
-    Job.deleteOne({ _id: req.params.id }).then(result => {
-        if (result.n > 0) {
+    Job.deleteOne({ _id: req.body.id }).then(result => {
+        if (result.deletedCount == 1) {
             res.status(200).json({ message: "Deletion successful!" });
         } else {
             res.status(401).json({ message: "Not authorized!" });
