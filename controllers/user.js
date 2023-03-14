@@ -8,12 +8,21 @@ exports.createUser = (req, res, next) => {
         email: req.body.email,
         age: req.body.age,
         gender: req.body.gender,
+        dateOfBirth: req.body.dateOfBirth,
+        socialCatId: req.body.socialCatId,
+        stateId: req.body.stateId,
         religion: req.body.religion,
-        disability: req.body.disability,
-        category: req.body.category,
-        location: req.body.location,
-        pastJobs: req.body.pastJobs,
-        experience: req.body.experience
+        disabilityTypeId: req.body.disabilityTypeId,
+        skillMath: req.body.skillMath,
+        skillEnglish: req.body.skillEnglish,
+        skillReasoning: req.body.skillReasoning,
+        skillComputers: req.body.skillComputers,
+        skillTyping: req.body.skillTyping,
+        skillPersonal: req.body.skillPersonal,
+        skillInterpersonal: req.body.skillInterpersonal,
+        skillCommunication: req.body.skillCommunication,
+        skillOthers: req.body.skillOthers,
+        y4jRecommends: req.body.y4jRecommends,
     });
     user.save().then(createdUser => {
         res.status(201).json({
@@ -73,12 +82,21 @@ exports.updateUser = (req, res, next) => {
         email: req.body.email,
         age: req.body.age,
         gender: req.body.gender,
+        dateOfBirth: req.body.dateOfBirth,
+        socialCatId: req.body.socialCatId,
+        stateId: req.body.stateId,
         religion: req.body.religion,
-        disability: req.body.disability,
-        category: req.body.category,
-        location: req.body.location,
-        pastJobs: req.body.pastJobs,
-        experience: req.body.experience
+        disabilityTypeId: req.body.disabilityTypeId,
+        skillMath: req.body.skillMath,
+        skillEnglish: req.body.skillEnglish,
+        skillReasoning: req.body.skillReasoning,
+        skillComputers: req.body.skillComputers,
+        skillTyping: req.body.skillTyping,
+        skillPersonal: req.body.skillPersonal,
+        skillInterpersonal: req.body.skillInterpersonal,
+        skillCommunication: req.body.skillCommunication,
+        skillOthers: req.body.skillOthers,
+        y4jRecommends: req.body.y4jRecommends,
     });
     User.updateOne({ _id: req.body.id }, user).then(result => {
         if (result.modifiedCount == 1) {

@@ -2,51 +2,99 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
-const  jobSchema = new Schema({
-    age:{
+const jobSchema = new Schema({
+    jobCode: {
+        type: String,
+        required: true
+    },
+    jobTitle: {
+        type: String,
+        required: true
+    },
+    jobDesc: {
+        type: String,
+        required: true
+    },
+    jobType: {
         type: Number,
         required: true
     },
-    edate:{
-        type: String,
-        required: true
-    },
-    gender:{
-        type: String,
-        required: true
-    },
-    jd:{
-        type: String,
-        required: true
-    },
-    jobtype:{
-        type: String,
-        required: true
-    },
-    location:{
-        type: Array,
-        required: true
-    },
-    noOfVacancies:{
+    experience: {
         type: Number,
         required: true
     },
-    sdate:{
+    jobLocation: {
+        type: Number,
+        required: true
+    },
+    noOfVacancies: {
+        type: Number,
+        required: true
+    },
+    disabilityTypeId: {
+        type: Number,
+        required: true
+    },
+    qualificationIds: {
         type: String,
         required: true
     },
-    title:{
+    age: {
+        type: Number,
+        required: true
+    },
+    gender: {
+        type: Number,
+        required: true
+    },
+    skillSet: {
         type: String,
         required: true
     },
-    disability:{
-        type: Array,
+    responsibilities: {
+        type: String,
         required: true
     },
-    skills:{
-        type: Array,
+    languages: {
+        type: String,
         required: true
-    }
+    },
+    annualSalary: {
+        type: Number,
+        required: true
+    },
+    incentives: {
+        type: String,
+        required: true
+    },
+    facilities: {
+        type: String,
+        required: true
+    },
+    startDate: {
+        type: Date,
+        required: true
+    },
+    endDate: {
+        type: Date,
+        required: true
+    },
+    companyID: {
+        type: String,
+        required: true
+    },
+    companyName: {
+        type: String,
+        required: true
+    },
+    address: {
+        type: String,
+        required: true
+    },
+    corporateStatus: {
+        type: Number,
+        required: true
+    },
 });
 
 jobSchema.index({ id: 'unique' });

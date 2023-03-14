@@ -15,30 +15,66 @@ const userSchema = new Schema({
         required: true
     },
     gender: {
-        type: String,
+        type: Number,
+        required: true
+    },
+    dateOfBirth: {
+        type: Date,
+        required: true
+    },
+    socialCatId: {
+        type: Number,
+        required: true
+    },
+    stateId: {
+        type: Number,
         required: true
     },
     religion: {
         type: String,
         required: true
     },
-    disability: {
-        type: Array,
+    disabilityTypeId: {
+        type: Number,
         required: true
     },
-    category: {
-        type: String,
+    skillMath: {
+        type: Number,
         required: true
     },
-    location: {
-        type: String,
+    skillEnglish: {
+        type: Number,
         required: true
     },
-    pastJobs: {
-        type: Array,
+    skillReasoning: {
+        type: Number,
         required: true
     },
-    experience: {
+    skillComputers: {
+        type: Number,
+        required: true
+    },
+    skillTyping: {
+        type: Number,
+        required: true
+    },
+    skillPersonal: {
+        type: Number,
+        required: true
+    },
+    skillInterpersonal: {
+        type: Number,
+        required: true
+    },
+    skillCommunication: {
+        type: Number,
+        required: true
+    },
+    skillOthers: {
+        type: Number,
+        required: true
+    },
+    y4jRecommends: {
         type: String,
         required: true
     },
