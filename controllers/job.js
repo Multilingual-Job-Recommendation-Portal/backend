@@ -125,3 +125,18 @@ exports.deleteJob = (req, res, next) => {
             })
         });
 }
+
+// get all jobs
+exports.getJobs = (req, res, next) => {
+    Job.find().then(documents => {
+        res.status(200).json({
+            message: 'Jobs fetched successfully!',
+            jobs: documents
+        });
+    })
+        .catch(error => {
+            res.status(500).json({
+                message: "Fetching jobs failed!"
+            })
+        });
+}
