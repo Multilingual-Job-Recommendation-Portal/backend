@@ -10,6 +10,11 @@ const adminSchema = new Schema({
         type: String,
         required: true
     },
+    role: {
+        type: String,
+        required: true,
+        default: "admin"
+    }
 });
 
 adminSchema.index({ email: 'unique' });

@@ -4,7 +4,8 @@ const Admin = require('../models/admin');
 exports.createAdmin = (req, res, next) => {
     const admin = new Admin({
         email: req.body.email,
-        name: req.body.name
+        name: req.body.name,
+        role: "admin",
     });
     admin.save().then(createdAdmin => {
         res.status(201).json({

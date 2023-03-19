@@ -44,7 +44,7 @@ exports.getUserByGoogleLogin = (req, res, next) => {
                 }
                 else {
                     console.log(
-                        "User not found!"
+                        "Corporate User not found!"
                     );
                 }
             })
@@ -60,9 +60,6 @@ exports.getUserByGoogleLogin = (req, res, next) => {
                     );
                 }
             })
-
-            // if the user is not found
-            res.status(404).json({ message: "User not found!" })
         }
     });
 }
