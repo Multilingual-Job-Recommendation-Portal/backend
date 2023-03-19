@@ -16,4 +16,7 @@ router.put('/update', CorporateController.updateCorporate);
 // deleting a corporate by email
 router.delete('/delete', CorporateController.deleteCorporate);
 
+// get all corporates
+router.get('/all', CorporateController.getCorporates);
+
 module.exports = router;

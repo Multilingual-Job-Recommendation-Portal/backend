@@ -84,3 +84,18 @@ exports.deleteCorporate = (req, res, next) => {
             })
         });
 }
+
+// get all corporates
+exports.getCorporates = (req, res, next) => {
+    Corporate.find().then(documents => {
+        res.status(200).json({
+            message: "Corporates fetched successfully!",
+            corporates: documents
+        });
+    })
+        .catch(error => {
+            res.status(500).json({
+                message: "Fetching corporates failed!"
+            })
+        });
+}
