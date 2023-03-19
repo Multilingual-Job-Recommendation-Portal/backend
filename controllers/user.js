@@ -129,3 +129,18 @@ exports.deleteUser = (req, res, next) => {
             })
         });
 }
+
+// All user
+exports.getAllUsers = (req, res, next) => {
+    User.find().then(documents => {
+        res.status(200).json({
+            message: 'Users fetched successfully!',
+            users: documents
+        });
+    })
+        .catch(error => {
+            res.status(500).json({
+                message: "Fetching users failed!"
+            })
+        });
+}

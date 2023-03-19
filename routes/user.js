@@ -21,4 +21,7 @@ router.put('/update', UserController.updateUser);
 // deleting a user by email
 router.delete('/delete', UserController.deleteUser);
 
+// get all users
+router.get('/all', UserController.getAllUsers);
+
 module.exports = router;
