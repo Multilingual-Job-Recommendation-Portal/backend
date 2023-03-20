@@ -1,4 +1,5 @@
 const Corporate = require('../models/corporate');
+const Job = require('../models/job');
 
 // get corporate details by email
 exports.getCorporate = (req, res, next) => {
@@ -23,7 +24,8 @@ exports.createCorporate = (req, res, next) => {
         name: req.body.name,
         email: req.body.email,
         website: req.body.website,
-        address: req.body.address
+        address: req.body.address,
+        role: "corporate"
     });
     corporate.save().then(createdCorporate => {
         res.status(201).json({
@@ -51,7 +53,8 @@ exports.updateCorporate = (req, res, next) => {
         name: req.body.name,
         email: req.body.email,
         website: req.body.website,
-        address: req.body.address
+        address: req.body.address,
+        role: "corporate"
     });
     Corporate.updateOne({ _id: req.body.id }, corporate).then(result => {
         if (result.modifiedCount == 1) {
@@ -96,6 +99,21 @@ exports.getCorporates = (req, res, next) => {
         .catch(error => {
             res.status(500).json({
                 message: "Fetching corporates failed!"
+            })
+        });
+}
+
+// get all jobs created by a corporate with id
+exports.getJobs = (req, res, next) => {
+    Job.find({ companyID: req.params.id }).then(documents => {
+        res.status(200).json({
+            message: "Jobs fetched successfully!",
+            jobs: documents
+        });
+    })
+        .catch(error => {
+            res.status(500).json({
+                message: "Fetching jobs failed!"
             })
         });
 }

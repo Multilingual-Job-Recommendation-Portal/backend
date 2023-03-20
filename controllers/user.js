@@ -23,6 +23,7 @@ exports.createUser = (req, res, next) => {
         skillCommunication: req.body.skillCommunication,
         skillOthers: req.body.skillOthers,
         y4jRecommends: req.body.y4jRecommends,
+        role: "user"
     });
     user.save().then(createdUser => {
         res.status(201).json({

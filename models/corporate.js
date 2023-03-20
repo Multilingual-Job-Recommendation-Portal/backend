@@ -18,6 +18,11 @@ const corporateSchema = new Schema({
         type: String,
         required: true
     },
+    role: {
+        type: String,
+        required: true,
+        default: 'corporate'
+    }
 });
 
 corporateSchema.index({ email: 'unique' });
