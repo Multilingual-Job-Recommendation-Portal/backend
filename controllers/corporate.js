@@ -44,32 +44,27 @@ exports.createCorporate = (req, res, next) => {
         });
 }
 
-// TODO: Needed to debug
-
 // update corporate details
-exports.updateCorporate = (req, res, next) => {
-    const corporate = new Corporate({
-        _id: req.body.id,
+exports.updateCorporate = async (req, res, next) => {
+    const userId = req.body._id;
+    const update = {
         name: req.body.name,
         email: req.body.email,
         website: req.body.website,
-        address: req.body.address,
-        role: "corporate"
+        address: req.body.address
+    };
+
+    const updateCorporateData = await Corporate.findByIdAndUpdate(userId, update, { new: true });
+    if (!updateCorporateData) {
+        res.status(500).json({
+            message: "Updating corporate failed!"
+        })
+        return;
+    }
+    res.status(200).json({
+        message: "Corporate updated successfully",
+        corporate: updateCorporateData
     });
-    Corporate.updateOne({ _id: req.body.id }, corporate).then(result => {
-        if (result.modifiedCount == 1) {
-            res.status(200).json({ message: "Update successful!" });
-        } else if (result.matchedCount == 1) {
-            res.status(200).json({ message: "No changes to update!" });
-        } else {
-            res.status(401).json({ message: "Not authorized!" });
-        }
-    })
-        .catch(error => {
-            res.status(500).json({
-                message: "Couldn't update corporate!"
-            })
-        });
 }
 
 // delete corporate

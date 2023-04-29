@@ -26,7 +26,7 @@ exports.getUserByGoogleLogin = (req, res, next) => {
             const email = response.data.email;
 
             // find the user by email
-            User.findOne({ email: email }).then(user => {
+            User.findOne({ Email: email }).then(user => {
                 if (user) {
                     res.status(200).json(user);
                 }

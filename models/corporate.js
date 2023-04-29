@@ -16,7 +16,6 @@ const corporateSchema = new Schema({
     },
     address: {
         type: String,
-        required: true
     },
     role: {
         type: String,

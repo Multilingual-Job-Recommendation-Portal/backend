@@ -4,26 +4,31 @@ dotenv.config();
 
 exports.createUser = (req, res, next) => {
     const user = new User({
-        name: req.body.name,
-        email: req.body.email,
-        age: req.body.age,
-        gender: req.body.gender,
-        dateOfBirth: req.body.dateOfBirth,
-        socialCatId: req.body.socialCatId,
-        stateId: req.body.stateId,
-        religion: req.body.religion,
-        disabilityTypeId: req.body.disabilityTypeId,
-        skillMath: req.body.skillMath,
-        skillEnglish: req.body.skillEnglish,
-        skillReasoning: req.body.skillReasoning,
-        skillComputers: req.body.skillComputers,
-        skillTyping: req.body.skillTyping,
-        skillPersonal: req.body.skillPersonal,
-        skillInterpersonal: req.body.skillInterpersonal,
-        skillCommunication: req.body.skillCommunication,
-        skillOthers: req.body.skillOthers,
-        y4jRecommends: req.body.y4jRecommends,
-        role: "user"
+        Misid: req.body.Misid,
+        BatchId: req.body.BatchId,
+        CandidateId: req.body.CandidateId,
+        CandidateName: req.body.CandidateName,
+        Email: req.body.Email,
+        PanNumber: req.body.PanNumber,
+        DateOfBirth: req.body.DateOfBirth,
+        Gender: req.body.Gender,
+        Disability: req.body.Disability,
+        Address: req.body.Address,
+        StateName: req.body.StateName,
+        DistrictName: req.body.DistrictName,
+        MandalName: req.body.MandalName,
+        VillageName: req.body.VillageName,
+        Pincode: req.body.Pincode,
+        KnownName: req.body.KnownName,
+        PreferredJobLocation: req.body.PreferredJobLocation,
+        MaritalStatusName: req.body.MaritalStatusName,
+        TalentName: req.body.TalentName,
+        SkillTyping: req.body.SkillTyping,
+        PrevTrainingProviderName: req.body.PrevTrainingProviderName,
+        SkillsCovered: req.body.SkillsCovered,
+        TotExpYears: req.body.TotExpYears,
+        TotExpMonths: req.body.TotExpMonths,
+        CDate: req.body.CDate,
     });
     user.save().then(createdUser => {
         res.status(201).json({
@@ -44,7 +49,7 @@ exports.createUser = (req, res, next) => {
 
 // get the user by email
 exports.getUserByEmail = (req, res, next) => {
-    User.findOne({ email: req.body.email }).then(user => {
+    User.findOne({ Email: req.query.email }).then(user => {
         if (user) {
             res.status(200).json(user);
         } else {
@@ -61,7 +66,7 @@ exports.getUserByEmail = (req, res, next) => {
 
 // get the user by id
 exports.getUserById = (req, res, next) => {
-    User.findById(req.body.id).then(user => {
+    User.findById(req.query.id).then(user => {
         if (user) {
             res.status(200).json(user);
         } else {
@@ -76,48 +81,55 @@ exports.getUserById = (req, res, next) => {
 }
 
 // update user details
-exports.updateUser = (req, res, next) => {
-    const user = new User({
-        _id: req.body.id,
-        name: req.body.name,
-        email: req.body.email,
-        age: req.body.age,
-        gender: req.body.gender,
-        dateOfBirth: req.body.dateOfBirth,
-        socialCatId: req.body.socialCatId,
-        stateId: req.body.stateId,
-        religion: req.body.religion,
-        disabilityTypeId: req.body.disabilityTypeId,
-        skillMath: req.body.skillMath,
-        skillEnglish: req.body.skillEnglish,
-        skillReasoning: req.body.skillReasoning,
-        skillComputers: req.body.skillComputers,
-        skillTyping: req.body.skillTyping,
-        skillPersonal: req.body.skillPersonal,
-        skillInterpersonal: req.body.skillInterpersonal,
-        skillCommunication: req.body.skillCommunication,
-        skillOthers: req.body.skillOthers,
-        y4jRecommends: req.body.y4jRecommends,
+exports.updateUser = async (req, res, next) => {
+    const userId = req.body._id;
+    const user = {
+        Misid: req.body.Misid,
+        BatchId: req.body.BatchId,
+        CandidateId: req.body.CandidateId,
+        CandidateName: req.body.CandidateName,
+        Email: req.body.Email,
+        PanNumber: req.body.PanNumber,
+        DateOfBirth: req.body.DateOfBirth,
+        Gender: req.body.Gender,
+        Disability: req.body.Disability,
+        Address: req.body.Address,
+        StateName: req.body.StateName,
+        DistrictName: req.body.DistrictName,
+        MandalName: req.body.MandalName,
+        VillageName: req.body.VillageName,
+        Pincode: req.body.Pincode,
+        KnownName: req.body.KnownName,
+        PreferredJobLocation: req.body.PreferredJobLocation,
+        MaritalStatusName: req.body.MaritalStatusName,
+        TalentName: req.body.TalentName,
+        SkillTyping: req.body.SkillTyping,
+        PrevTrainingProviderName: req.body.PrevTrainingProviderName,
+        SkillsCovered: req.body.SkillsCovered,
+        TotExpYears: req.body.TotExpYears,
+        TotExpMonths: req.body.TotExpMonths,
+        CDate: req.body.CDate,
+        role: req.body.role
+    };
+
+    const updateUserData = await User.findByIdAndUpdate(userId, user, { new: true });
+    if (!updateUserData) {
+        res.status(500).json({
+            message: "Couldn't update user!"
+        })
+        return;
+    }
+
+    res.status(200).json({
+        message: "Update successful!",
+        user: updateUserData
     });
-    User.updateOne({ _id: req.body.id }, user).then(result => {
-        if (result.modifiedCount == 1) {
-            res.status(200).json({ message: "Update successful!" });
-        } else if (result.matchedCount == 1) {
-            res.status(200).json({ message: "No changes to update!" });
-        } else {
-            res.status(401).json({ message: "Not authorized!" });
-        }
-    })
-        .catch(error => {
-            res.status(500).json({
-                message: "Couldn't update user!"
-            })
-        });
 }
+
 
 // delete user by email
 exports.deleteUser = (req, res, next) => {
-    User.deleteOne({ email: req.body.email }).then(result => {
+    User.deleteOne({ Email: req.body.email }).then(result => {
         if (result.deletedCount == 1) {
             res.status(200).json({ message: "Deletion successful!" });
         } else {
