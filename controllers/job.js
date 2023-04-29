@@ -4,29 +4,20 @@ dotenv.config();
 
 exports.createJob = (req, res, next) => {
     const job = new Job({
-        jobCode: req.body.jobCode,
+        hrName: req.body.hrName,
+        hrEmail: req.body.hrEmail,
+        hrPhone: req.body.hrPhone,
+        companyName: req.body.companyName,
+        companyId: req.body.companyId,
         jobTitle: req.body.jobTitle,
-        jobDesc: req.body.jobDesc,
+        jobDescription: req.body.jobDescription,
+        applications: req.body.applications,
         jobType: req.body.jobType,
-        experience: req.body.experience,
+        disabilityType: req.body.disabilityType,
+        openings: req.body.openings,
         jobLocation: req.body.jobLocation,
-        noOfVacancies: req.body.noOfVacancies,
-        disabilityTypeId: req.body.disabilityTypeId,
-        qualificationIds: req.body.qualificationIds,
-        age: req.body.age,
-        gender: req.body.gender,
-        skillSet: req.body.skillSet,
-        responsibilities: req.body.responsibilities,
-        languages: req.body.languages,
-        annualSalary: req.body.annualSalary,
-        incentives: req.body.incentives,
-        facilities: req.body.facilities,
         startDate: req.body.startDate,
         endDate: req.body.endDate,
-        companyID: req.body.companyID,
-        companyName: req.body.companyName,
-        address: req.body.address,
-        corporateStatus: req.body.corporateStatus,
     });
 
     job.save().then(createdJob => {
@@ -49,7 +40,7 @@ exports.createJob = (req, res, next) => {
 
 // get the user by id
 exports.getJobById = (req, res, next) => {
-    Job.findById(req.body.id).then(job => {
+    Job.findById(req.query.id).then(job => {
         if (job) {
             res.status(200).json(job);
         } else {
@@ -64,55 +55,41 @@ exports.getJobById = (req, res, next) => {
 }
 
 // update the job by id
-exports.updateJob = (req, res, next) => {
-    const job = new Job({
-        jobCode: req.body.jobCode,
+exports.updateJob = async (req, res, next) => {
+    const jobId = req.body._id;
+    const jobData = {
+        hrName: req.body.hrName,
+        hrEmail: req.body.hrEmail,
+        hrPhone: req.body.hrPhone,
+        companyName: req.body.companyName,
+        companyId: req.body.companyId,
         jobTitle: req.body.jobTitle,
-        jobDesc: req.body.jobDesc,
+        jobDescription: req.body.jobDescription,
+        applications: req.body.applications,
         jobType: req.body.jobType,
-        experience: req.body.experience,
+        disabilityType: req.body.disabilityType,
+        openings: req.body.openings,
         jobLocation: req.body.jobLocation,
-        noOfVacancies: req.body.noOfVacancies,
-        disabilityTypeId: req.body.disabilityTypeId,
-        qualificationIds: req.body.qualificationIds,
-        age: req.body.age,
-        gender: req.body.gender,
-        skillSet: req.body.skillSet,
-        responsibilities: req.body.responsibilities,
-        languages: req.body.languages,
-        annualSalary: req.body.annualSalary,
-        incentives: req.body.incentives,
-        facilities: req.body.facilities,
         startDate: req.body.startDate,
         endDate: req.body.endDate,
-        companyID: req.body.companyID,
-        companyName: req.body.companyName,
-        address: req.body.address,
-        corporateStatus: req.body.corporateStatus,
-        _id: req.body.id
+    };
+    console.log(jobData);
+    const updatedJob = await Job.findByIdAndUpdate(jobId, jobData, { new: true });
+    if (!updatedJob) {
+        res.status(500).json({
+            message: "Updating job failed!"
+        })
+        return;
+    }
+    res.status(200).json({
+        message: "Update successful!",
+        job: updatedJob
     });
-    Job.updateOne({ _id: req.body.id }, job).then(result => {
-        console.log(result)
-        if (result.modifiedCount > 0) {
-            res.status(200).json({ message: "Update successful!" });
-        } else if (result.matchedCount == 1) {
-            res.status(200).json({ message: "No Updates found" });
-        }
-        else {
-            res.status(401).json({ message: "Not authorized!" });
-        }
-    })
-        .catch(error => {
-            res.status(500).json({
-                message: "Couldn't update job!"
-            })
-        }
-        );
 }
 
 // delete the job by id
 exports.deleteJob = (req, res, next) => {
-    Job.deleteOne({ _id: req.body.id }).then(result => {
+    Job.deleteOne({ _id: req.body._id }).then(result => {
         if (result.deletedCount == 1) {
             res.status(200).json({ message: "Deletion successful!" });
         } else {
@@ -129,6 +106,21 @@ exports.deleteJob = (req, res, next) => {
 // get all jobs
 exports.getJobs = (req, res, next) => {
     Job.find().then(documents => {
+        res.status(200).json({
+            message: 'Jobs fetched successfully!',
+            jobs: documents
+        });
+    })
+        .catch(error => {
+            res.status(500).json({
+                message: "Fetching jobs failed!"
+            })
+        });
+}
+
+// get all jobs by company id
+exports.getJobsByCompanyId = (req, res, next) => {
+    Job.find({ companyId: req.query.companyId }).then(documents => {
         res.status(200).json({
             message: 'Jobs fetched successfully!',
             jobs: documents

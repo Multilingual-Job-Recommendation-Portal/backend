@@ -7,9 +7,8 @@ const JobController = require('../controllers/job');
 // Creating a new job
 router.post('/create', JobController.createJob);
 
-
 // Getting a job by id
-router.get('/id', JobController.getJobById)
+router.get('/', JobController.getJobById)
 
 // updating a job by id
 router.put('/update', JobController.updateJob);
@@ -19,4 +18,8 @@ router.delete('/delete', JobController.deleteJob);
 
 // get all jobs
 router.get('/all', JobController.getJobs);
+
+// get all jobs by company id
+router.get('/corporate', JobController.getJobsByCompanyId);
+
 module.exports = router;

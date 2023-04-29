@@ -97,19 +97,3 @@ exports.getCorporates = (req, res, next) => {
             })
         });
 }
-
-// get all jobs created by a corporate with id
-exports.getJobs = (req, res, next) => {
-    console.log(req.params.id);
-    Job.find({ companyID: req.params.id }).then(documents => {
-        res.status(200).json({
-            message: "Jobs fetched successfully!",
-            jobs: documents
-        });
-    })
-        .catch(error => {
-            res.status(500).json({
-                message: "Fetching jobs failed!"
-            })
-        });
-}

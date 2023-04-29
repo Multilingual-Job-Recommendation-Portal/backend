@@ -3,98 +3,22 @@ const Schema = mongoose.Schema;
 
 
 const jobSchema = new Schema({
-    jobCode: {
-        type: String,
-        required: true
-    },
-    jobTitle: {
-        type: String,
-        required: true
-    },
-    jobDesc: {
-        type: String,
-        required: true
-    },
-    jobType: {
-        type: Number,
-        required: true
-    },
-    experience: {
-        type: Number,
-        required: true
-    },
-    jobLocation: {
-        type: Number,
-        required: true
-    },
-    noOfVacancies: {
-        type: Number,
-        required: true
-    },
-    disabilityTypeId: {
-        type: Number,
-        required: true
-    },
-    qualificationIds: {
-        type: String,
-        required: true
-    },
-    age: {
-        type: Number,
-        required: true
-    },
-    gender: {
-        type: Number,
-        required: true
-    },
-    skillSet: {
-        type: String,
-        required: true
-    },
-    responsibilities: {
-        type: String,
-        required: true
-    },
-    languages: {
-        type: String,
-        required: true
-    },
-    annualSalary: {
-        type: Number,
-        required: true
-    },
-    incentives: {
-        type: String,
-        required: true
-    },
-    facilities: {
-        type: String,
-        required: true
-    },
-    startDate: {
-        type: Date,
-        required: true
-    },
-    endDate: {
-        type: Date,
-        required: true
-    },
-    companyID: {
-        type: String,
-        required: true
-    },
-    companyName: {
-        type: String,
-        required: true
-    },
-    address: {
-        type: String,
-        required: true
-    },
-    corporateStatus: {
-        type: Number,
-        required: true
-    },
+    hrName: { type: String},
+    hrEmail: { type: String},
+    hrPhone: { type: String},
+    companyName: { type: String},
+    companyId : { type: String, required: true },
+    jobTitle: { type: String, required: true },
+    jobDescription: { type: String},
+    applications : {type: Array},
+    jobType: { type: String},
+    disabilityType: { type: String},
+    openings : { type: Number},
+    jobLocation: { type: String},
+    postedDate: { type: Date, default: Date.now},
+    startDate: { type: Date, required: true},
+    endDate: { type: Date, required: true},
+    status: { type: String, default: 'active' },
 });
 
 jobSchema.index({ id: 'unique' });

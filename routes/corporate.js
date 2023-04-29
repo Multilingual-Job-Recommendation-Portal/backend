@@ -19,7 +19,4 @@ router.delete('/delete', CorporateController.deleteCorporate);
 // get all corporates
 router.get('/all', CorporateController.getCorporates);
 
-// get all jobs created by a corporate with id passed as parameter  
-router.get('/jobs/:id', CorporateController.getJobs);
-
 module.exports = router;
