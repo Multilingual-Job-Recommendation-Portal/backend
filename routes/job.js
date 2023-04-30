@@ -22,4 +22,6 @@ router.get('/all', JobController.getJobs);
 // get all jobs by company id
 router.get('/corporate', JobController.getJobsByCompanyId);
 
+// translate job
+router.get('/translate', JobController.translateJob);
 module.exports = router;

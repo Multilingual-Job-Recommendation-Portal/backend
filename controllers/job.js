@@ -1,21 +1,29 @@
 const Job = require('../models/job');
 const dotenv = require('dotenv');
+const axios = require('axios');
 dotenv.config();
+
+const translationAPI = process.env.TRANSLATION_API;
 
 exports.createJob = (req, res, next) => {
     const job = new Job({
-        hrName: req.body.hrName,
+        jobDescription: [
+            {
+                jobTitle: req.body.jobTitle,
+                jobDescription: req.body.jobDescription,
+                jobType: req.body.jobType,
+                disabilityType: req.body.disabilityType,
+                jobLocation: req.body.jobLocation,
+                hrName: req.body.hrName,
+                companyName: req.body.companyName,
+                language: "en",
+            }
+        ],
         hrEmail: req.body.hrEmail,
         hrPhone: req.body.hrPhone,
-        companyName: req.body.companyName,
         companyId: req.body.companyId,
-        jobTitle: req.body.jobTitle,
-        jobDescription: req.body.jobDescription,
         applications: req.body.applications,
-        jobType: req.body.jobType,
-        disabilityType: req.body.disabilityType,
         openings: req.body.openings,
-        jobLocation: req.body.jobLocation,
         startDate: req.body.startDate,
         endDate: req.body.endDate,
     });
@@ -58,18 +66,23 @@ exports.getJobById = (req, res, next) => {
 exports.updateJob = async (req, res, next) => {
     const jobId = req.body._id;
     const jobData = {
-        hrName: req.body.hrName,
+        jobDescription: [
+            {
+                jobTitle: req.body.jobTitle,
+                jobDescription: req.body.jobDescription,
+                jobType: req.body.jobType,
+                disabilityType: req.body.disabilityType,
+                jobLocation: req.body.jobLocation,
+                hrName: req.body.hrName,
+                companyName: req.body.companyName,
+                language: "en",
+            }
+        ],
         hrEmail: req.body.hrEmail,
         hrPhone: req.body.hrPhone,
-        companyName: req.body.companyName,
         companyId: req.body.companyId,
-        jobTitle: req.body.jobTitle,
-        jobDescription: req.body.jobDescription,
         applications: req.body.applications,
-        jobType: req.body.jobType,
-        disabilityType: req.body.disabilityType,
         openings: req.body.openings,
-        jobLocation: req.body.jobLocation,
         startDate: req.body.startDate,
         endDate: req.body.endDate,
     };
@@ -132,3 +145,165 @@ exports.getJobsByCompanyId = (req, res, next) => {
             })
         });
 }
+
+exports.translateJob = async (req, res, next) => {
+    const jobId = req.query._id;
+    // search the data from the database
+    const jobData = await Job.findById(jobId).then(job => {
+        if (job) {
+            return job;
+        } else {
+            res.status(404).json({ message: "Job not found!" });
+        }
+    })
+    console.log("Translating job id " + jobId + " to all the available ")
+    const jobTitle = jobData.jobDescription[0].jobTitle;
+    const jobDescription = jobData.jobDescription[0].jobDescription;
+    const jobType = jobData.jobDescription[0].jobType;
+    const disabilityType = jobData.jobDescription[0].disabilityType;
+    const jobLocation = jobData.jobDescription[0].jobLocation;
+    const hrName = jobData.jobDescription[0].hrName;
+    const companyName = jobData.jobDescription[0].companyName;
+
+    const translatedJobTitle = await axios.post(translationAPI + '/translation', { data: jobTitle });
+    const translatedJobDescription = await axios.post(translationAPI + '/translation', { data: jobDescription });
+    const translatedJobType = await axios.post(translationAPI + '/translation', { data: jobType });
+    const translatedDisabilityType = await axios.post(translationAPI + '/translation', { data: disabilityType });
+    const translatedJobLocation = await axios.post(translationAPI + '/translation', { data: jobLocation });
+    const translatedHrName = await axios.post(translationAPI + '/translation', { data: hrName });
+    const translatedCompanyName = await axios.post(translationAPI + '/translation', { data: companyName });
+
+    // update the job description array with the translated data
+
+    const jobDescriptionArray = [
+        {
+            jobTitle: jobTitle,
+            jobDescription: jobDescription,
+            jobType: jobType,
+            disabilityType: disabilityType,
+            jobLocation: jobLocation,
+            hrName: hrName,
+            companyName: companyName,
+            language: "en"
+        },
+        {
+            jobTitle: translatedJobTitle.data.data["hi"],
+            jobDescription: translatedJobDescription.data.data["hi"],
+            jobType: translatedJobType.data.data["hi"],
+            disabilityType: translatedDisabilityType.data.data["hi"],
+            jobLocation: translatedJobLocation.data.data["hi"],
+            hrName: translatedHrName.data.data["hi"],
+            companyName: translatedCompanyName.data.data["hi"],
+            language: "hi"
+        },
+        {
+            jobTitle: translatedJobTitle.data.data["as"],
+            jobDescription: translatedJobDescription.data.data["as"],
+            jobType: translatedJobType.data.data["as"],
+            disabilityType: translatedDisabilityType.data.data["as"],
+            jobLocation: translatedJobLocation.data.data["as"],
+            hrName: translatedHrName.data.data["as"],
+            companyName: translatedCompanyName.data.data["as"],
+            language: "as"
+        },
+        {
+            jobTitle: translatedJobTitle.data.data["mr"],
+            jobDescription: translatedJobDescription.data.data["mr"],
+            jobType: translatedJobType.data.data["mr"],
+            disabilityType: translatedDisabilityType.data.data["mr"],
+            jobLocation: translatedJobLocation.data.data["mr"],
+            hrName: translatedHrName.data.data["mr"],
+            companyName: translatedCompanyName.data.data["mr"],
+            language: "mr"
+        },
+        {
+            jobTitle: translatedJobTitle.data.data["ta"],
+            jobDescription: translatedJobDescription.data.data["ta"],
+            jobType: translatedJobType.data.data["ta"],
+            disabilityType: translatedDisabilityType.data.data["ta"],
+            jobLocation: translatedJobLocation.data.data["ta"],
+            hrName: translatedHrName.data.data["ta"],
+            companyName: translatedCompanyName.data.data["ta"],
+            language: "ta"
+        },
+        {
+            jobTitle: translatedJobTitle.data.data["bn"],
+            jobDescription: translatedJobDescription.data.data["bn"],
+            jobType: translatedJobType.data.data["bn"],
+            disabilityType: translatedDisabilityType.data.data["bn"],
+            jobLocation: translatedJobLocation.data.data["bn"],
+            hrName: translatedHrName.data.data["bn"],
+            companyName: translatedCompanyName.data.data["bn"],
+            language: "bn"
+        },
+        {
+            jobTitle: translatedJobTitle.data.data["kn"],
+            jobDescription: translatedJobDescription.data.data["kn"],
+            jobType: translatedJobType.data.data["kn"],
+            disabilityType: translatedDisabilityType.data.data["kn"],
+            jobLocation: translatedJobLocation.data.data["kn"],
+            hrName: translatedHrName.data.data["kn"],
+            companyName: translatedCompanyName.data.data["kn"],
+            language: "kn"
+        },
+        {
+            jobTitle: translatedJobTitle.data.data["or"],
+            jobDescription: translatedJobDescription.data.data["or"],
+            jobType: translatedJobType.data.data["or"],
+            disabilityType: translatedDisabilityType.data.data["or"],
+            jobLocation: translatedJobLocation.data.data["or"],
+            hrName: translatedHrName.data.data["or"],
+            companyName: translatedCompanyName.data.data["or"],
+            language: "or"
+        },
+        {
+            jobTitle: translatedJobTitle.data.data["te"],
+            jobDescription: translatedJobDescription.data.data["te"],
+            jobType: translatedJobType.data.data["te"],
+            disabilityType: translatedDisabilityType.data.data["te"],
+            jobLocation: translatedJobLocation.data.data["te"],
+            hrName: translatedHrName.data.data["te"],
+            companyName: translatedCompanyName.data.data["te"],
+            language: "te"
+        },
+        {
+            jobTitle: translatedJobTitle.data.data["gu"],
+            jobDescription: translatedJobDescription.data.data["gu"],
+            jobType: translatedJobType.data.data["gu"],
+            disabilityType: translatedDisabilityType.data.data["gu"],
+            jobLocation: translatedJobLocation.data.data["gu"],
+            hrName: translatedHrName.data.data["gu"],
+            companyName: translatedCompanyName.data.data["gu"],
+            language: "gu"
+        },
+        {
+            jobTitle: translatedJobTitle.data.data["ml"],
+            jobDescription: translatedJobDescription.data.data["ml"],
+            jobType: translatedJobType.data.data["ml"],
+            disabilityType: translatedDisabilityType.data.data["ml"],
+            jobLocation: translatedJobLocation.data.data["ml"],
+            hrName: translatedHrName.data.data["ml"],
+            companyName: translatedCompanyName.data.data["ml"],
+            language: "ml"
+        },
+        {
+            jobTitle: translatedJobTitle.data.data["pa"],
+            jobDescription: translatedJobDescription.data.data["pa"],
+            jobType: translatedJobType.data.data["pa"],
+            disabilityType: translatedDisabilityType.data.data["pa"],
+            jobLocation: translatedJobLocation.data.data["pa"],
+            hrName: translatedHrName.data.data["pa"],
+            companyName: translatedCompanyName.data.data["pa"],
+            language: "pa"
+        }
+    ];
+
+    // Update the job in the database with the translated data
+    const result = await Job.findByIdAndUpdate(jobId, { $set: { jobDescription: jobDescriptionArray } }, { new: true });
+
+    if (result) {
+        res.status(200).send({ message: "Job updated successfully", data: result });
+    } else {
+        res.status(400).send({ message: "Job not found" });
+    }
+};
