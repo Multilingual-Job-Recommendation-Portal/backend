@@ -187,16 +187,6 @@ exports.translateJob = async (req, res, next) => {
             language: "en"
         },
         {
-            jobTitle: translatedJobTitle.data.data["hi"],
-            jobDescription: translatedJobDescription.data.data["hi"],
-            jobType: translatedJobType.data.data["hi"],
-            disabilityType: translatedDisabilityType.data.data["hi"],
-            jobLocation: translatedJobLocation.data.data["hi"],
-            hrName: translatedHrName.data.data["hi"],
-            companyName: translatedCompanyName.data.data["hi"],
-            language: "hi"
-        },
-        {
             jobTitle: translatedJobTitle.data.data["as"],
             jobDescription: translatedJobDescription.data.data["as"],
             jobType: translatedJobType.data.data["as"],
@@ -205,6 +195,16 @@ exports.translateJob = async (req, res, next) => {
             hrName: translatedHrName.data.data["as"],
             companyName: translatedCompanyName.data.data["as"],
             language: "as"
+        },
+        {
+            jobTitle: translatedJobTitle.data.data["hi"],
+            jobDescription: translatedJobDescription.data.data["hi"],
+            jobType: translatedJobType.data.data["hi"],
+            disabilityType: translatedDisabilityType.data.data["hi"],
+            jobLocation: translatedJobLocation.data.data["hi"],
+            hrName: translatedHrName.data.data["hi"],
+            companyName: translatedCompanyName.data.data["hi"],
+            language: "hi"
         },
         {
             jobTitle: translatedJobTitle.data.data["mr"],
